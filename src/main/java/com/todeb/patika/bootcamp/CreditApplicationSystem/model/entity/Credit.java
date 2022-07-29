@@ -1,5 +1,6 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,12 @@ public class Credit implements Serializable {
 
     private int creditLimit;
     private CreditStatus status;
+
+    @JsonIgnore
+    @Column(updatable = false)
     private int creditLimitMultiplier = 4;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;

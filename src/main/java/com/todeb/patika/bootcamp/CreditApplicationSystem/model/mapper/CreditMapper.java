@@ -8,12 +8,14 @@ public class CreditMapper {
     public static CreditDTO toDTO(Credit credit) {
         CreditDTO creditDTO = new CreditDTO();
         creditDTO.setStatus(credit.getStatus());
+        creditDTO.setCreditLimit(credit.getCreditLimit());
         return creditDTO;
     }
 
     public static Credit toEntity(CreditDTO creditDTO) {
         Credit credit = new Credit();
         credit.setStatus(creditDTO.getStatus());
+        credit.setCreditLimit(creditDTO.getCreditLimit());
         return credit;
     }
 

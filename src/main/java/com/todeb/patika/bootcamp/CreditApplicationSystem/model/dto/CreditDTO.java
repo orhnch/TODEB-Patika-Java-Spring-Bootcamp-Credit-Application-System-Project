@@ -8,4 +8,5 @@ import lombok.Setter;
 @Setter
 public class CreditDTO {
     private CreditStatus status;
+    private int creditLimit;
 }
