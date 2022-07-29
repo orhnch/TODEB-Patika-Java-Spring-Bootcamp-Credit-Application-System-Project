@@ -38,7 +38,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(respCustomer);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity deleteCustomer(@RequestParam(name = "id") Long id) {
         customerService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("Related Customer deleted successfully");
@@ -55,6 +55,6 @@ public class CustomerController {
     @DeleteMapping("delete/all")
     public ResponseEntity deleteAllCustomers() {
         customerService.deleteAll();
-        return ResponseEntity.status(HttpStatus.OK).body("All students were deleted successfully");
+        return ResponseEntity.status(HttpStatus.OK).body("All customers were deleted successfully");
     }
 }
