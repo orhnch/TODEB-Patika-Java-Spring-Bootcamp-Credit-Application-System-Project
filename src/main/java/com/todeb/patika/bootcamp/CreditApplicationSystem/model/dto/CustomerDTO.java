@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class CustomerDTO {
 
+    private String nationalNumberId;
     private String firstName;
     private String lastName;
     private int age;

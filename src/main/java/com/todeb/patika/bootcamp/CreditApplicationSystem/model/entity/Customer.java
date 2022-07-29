@@ -38,7 +38,7 @@ public class Customer implements Serializable {
     @Min(1)
     private int salary;
 
-    @NotBlank(message = "firstName cannot be blank")
+    @NotBlank(message = "Phone number cannot be blank")
     private String phoneNumber;
 
     private int creditScore = (int) (Math.random() * 1500);

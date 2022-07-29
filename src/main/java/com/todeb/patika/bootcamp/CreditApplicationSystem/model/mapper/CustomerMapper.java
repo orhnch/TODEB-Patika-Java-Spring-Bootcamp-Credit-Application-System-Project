@@ -11,6 +11,7 @@ public class CustomerMapper {
         customerDTO.setAge(customer.getAge());
         customerDTO.setSalary(customer.getSalary());
         customerDTO.setPhoneNumber(customer.getPhoneNumber());
+        customerDTO.setNationalNumberId(customer.getNationalNumberId());
         return customerDTO;
     }
     public static Customer toEntity(CustomerDTO customerDTO){
@@ -20,6 +21,7 @@ public class CustomerMapper {
         customer.setAge(customerDTO.getAge());
         customer.setSalary(customerDTO.getSalary());
         customer.setPhoneNumber(customerDTO.getPhoneNumber());
+        customer.setNationalNumberId(customerDTO.getNationalNumberId());
         return customer;
     }
 }
