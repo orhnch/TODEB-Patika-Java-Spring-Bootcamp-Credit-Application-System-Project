@@ -26,9 +26,9 @@ public class Customer implements Serializable {
     @Column(length = 11,updatable = false,nullable = false)
     private String nationalNumberId;
 
-    @NotBlank(message = "firstName cannot be blank")
+    @NotBlank(message = "Firstname cannot be blank")
     private String firstName;
-    @NotBlank(message = "firstName cannot be blank")
+    @NotBlank(message = "Lastname cannot be blank")
     private String lastName;
 
     @Min(18)
