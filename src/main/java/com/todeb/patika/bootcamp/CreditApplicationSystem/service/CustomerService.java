@@ -2,12 +2,15 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.CreditStatus;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +55,37 @@ public class CustomerService {
 
     public void deleteAll() {
         customerRepository.deleteAll();
+    }
+
+    public Customer doApplication(Long id) {
+        Customer customerById = getCustomerById(id);
+        Credit credit = new Credit();
+        List<Credit> credits = new ArrayList<>();
+
+        credit.setCreditLimit(calculateCreditLimit(customerById.getCreditScore(), customerById.getSalary()));
+        credit.setStatus(applicationResult(customerById.getCreditScore()));
+        credits.add(credit);
+        customerById.setCredits(credits);
+        credit.setCustomer(customerById);
+        return customerRepository.save(customerById);
+    }
+
+
+    private CreditStatus applicationResult(int creditScore) {
+        if (creditScore >= 500) {
+            return CreditStatus.APPROVED;
+        }
+        return CreditStatus.REJECTED;
+    }
+
+    private Integer calculateCreditLimit(int creditScore, int salary) {
+        if (creditScore >= 500 && creditScore < 1000 && salary <= 5000) {
+            return 10000;
+        } else if (creditScore >= 500 && creditScore < 1000) {
+            return 20000;
+        } else if (creditScore >= 1000) {
+            return salary * 4;
+        }
+        return 0;
     }
 }

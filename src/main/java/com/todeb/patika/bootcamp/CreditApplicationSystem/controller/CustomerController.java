@@ -57,4 +57,10 @@ public class CustomerController {
         customerService.deleteAll();
         return ResponseEntity.status(HttpStatus.OK).body("All customers were deleted successfully");
     }
+
+    @GetMapping("do/{id}")
+    public ResponseEntity doApplication(@PathVariable Long id) {
+        Customer customer = customerService.doApplication(id);
+        return ResponseEntity.status(HttpStatus.OK).body(customer);
+    }
 }
