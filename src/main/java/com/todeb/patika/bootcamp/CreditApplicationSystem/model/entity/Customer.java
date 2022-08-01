@@ -23,7 +23,7 @@ public class Customer implements Serializable {
     private Long id;
 
     @Pattern(regexp = "[1-9][0-9]{9}[02468]")
-    @Column(length = 11,updatable = false,nullable = false)
+    @Column(length = 11,updatable = false,nullable = false,unique = true)
     private String nationalNumberId;
 
     @NotBlank(message = "Firstname cannot be blank")
