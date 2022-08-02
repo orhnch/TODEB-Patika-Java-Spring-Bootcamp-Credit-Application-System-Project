@@ -88,7 +88,7 @@ public class CustomerService {
     }
 
     private Integer calculateCreditLimit(int creditScore, int salary) {
-        if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue() && salary <= 5000) {
+        if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue() && salary <= SalaryLimit.SALARY_LIMIT.getValue()) {
             return CreditLimitStage.LOWER_STAGE.getValue();
         } else if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue()) {
             return CreditLimitStage.HIGHER_STAGE.getValue();
