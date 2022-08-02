@@ -1,12 +1,15 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -23,7 +26,10 @@ public class Credit implements Serializable {
     @Enumerated(EnumType.STRING)
     private CreditStatus status;
 
-
+    @CreationTimestamp
+    @JsonFormat( pattern = "dd-MM-yyyy" )
+    @Column(name="credit_application_date", updatable = false, nullable = false)
+    private LocalDate creditApplicationDate;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
