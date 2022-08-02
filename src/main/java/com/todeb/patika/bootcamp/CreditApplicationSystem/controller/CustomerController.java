@@ -1,6 +1,7 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.controller;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,22 @@ public class CustomerController {
     @GetMapping("do/{id}")
     public ResponseEntity doApplication(@PathVariable Long id) {
         Customer customer = customerService.doApplication(id);
-        return ResponseEntity.status(HttpStatus.OK).body(customer);
+        return ResponseEntity.status(HttpStatus.OK).body("Credit application result as "
+                                                        +customer.getCredits().get(0).getStatus().toString().toUpperCase()
+                                                        +" was sent to "
+                                                        +customer.getPhoneNumber()
+                                                        +" by SMS!");
+    }
+
+    @GetMapping("/get/{nationalNumberId}")
+    public ResponseEntity getCustomerByNationalNumberId(@PathVariable String nationalNumberId) {
+        Customer customerByNationalNumberId = customerService.getCustomerByNationalNumberId(nationalNumberId);
+        return ResponseEntity.status(HttpStatus.OK).body(customerByNationalNumberId);
+    }
+
+    @GetMapping("/get/credits/{nationalNumberId}")
+    public ResponseEntity getCreditsByNationalNumberId(@PathVariable String nationalNumberId) {
+        List<Credit> credits = customerService.getCreditsByNationalNumberId(nationalNumberId);
+        return ResponseEntity.status(HttpStatus.OK).body(credits);
     }
 }

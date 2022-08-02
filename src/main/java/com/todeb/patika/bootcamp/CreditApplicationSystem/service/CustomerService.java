@@ -2,9 +2,7 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.CreditStatus;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.*;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +30,11 @@ public class CustomerService {
     public Customer getCustomerById(Long id) {
         Optional<Customer> byId = customerRepository.findById(id);
         return byId.orElseThrow(() -> new EntityNotFoundException("Customer", "id: " + id));
+    }
+
+    public Customer getCustomerByNationalNumberId(String nationalNumberId) {
+        Optional<Customer> byNationalNumberId = customerRepository.findCustomerByNationalNumberId(nationalNumberId);
+        return byNationalNumberId.orElseThrow(() -> new EntityNotFoundException("Customer", "nationalNumberId: " + nationalNumberId));
     }
 
     public void delete(Long id) {
@@ -70,21 +73,27 @@ public class CustomerService {
         return customerRepository.save(customerById);
     }
 
+    public List<Credit> getCreditsByNationalNumberId (String nationalNumberId){
+        Customer customer = getCustomerByNationalNumberId(nationalNumberId);
+        List<Credit> credits = new ArrayList<>(customer.getCredits());
+        return credits;
+    }
 
+//////////////////////CALCULATIONS//////////////////////////////////////////////
     private CreditStatus applicationResult(int creditScore) {
-        if (creditScore >= 500) {
+        if (creditScore >= CreditScoreLimit.LOWER.getValue()) {
             return CreditStatus.APPROVED;
         }
         return CreditStatus.REJECTED;
     }
 
     private Integer calculateCreditLimit(int creditScore, int salary) {
-        if (creditScore >= 500 && creditScore < 1000 && salary <= 5000) {
-            return 10000;
-        } else if (creditScore >= 500 && creditScore < 1000) {
-            return 20000;
-        } else if (creditScore >= 1000) {
-            return salary * 4;
+        if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue() && salary <= 5000) {
+            return CreditLimitStage.LOWER_STAGE.getValue();
+        } else if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue()) {
+            return CreditLimitStage.HIGHER_STAGE.getValue();
+        } else if (creditScore >= CreditScoreLimit.HIGHER.getValue()) {
+            return salary * CreditLimitMultiplier.CREDIT_LIMIT_MULTIPLIER.getValue();
         }
         return 0;
     }
