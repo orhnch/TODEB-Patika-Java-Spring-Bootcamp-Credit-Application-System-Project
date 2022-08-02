@@ -19,11 +19,11 @@ public class Credit implements Serializable {
     private Long id;
 
     private int creditLimit;
+    
+    @Enumerated(EnumType.STRING)
     private CreditStatus status;
 
-    @JsonIgnore
-    @Column(updatable = false)
-    private int creditLimitMultiplier = 4;
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
