@@ -71,7 +71,7 @@ public class CustomerService {
             credit.setCustomer(customerById);
             customerRepository.save(customerById);
         } else {
-            throw new AlreadyExistException(customerById.getNationalNumberId(),"has made a credit application before.");
+            throw new AlreadyExistException(customerById.getNationalNumberId()," has made a credit application before.");
         }
 
     }
