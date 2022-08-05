@@ -1,5 +1,6 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
+import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.AlreadyExistException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.*;
@@ -42,11 +43,8 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public Customer update(String phoneNumber, CustomerDTO customer) {
-        Optional<Customer> customerByPhoneNumber = customerRepository.findCustomerByPhoneNumber(phoneNumber);
-        if (!customerByPhoneNumber.isPresent())
-            throw new EntityNotFoundException("Customer", "phone number :" + phoneNumber);
-        Customer updatedCustomer = customerByPhoneNumber.get();
+    public Customer update(String nationalNumberId, CustomerDTO customer) {
+        Customer updatedCustomer = getCustomerByNationalNumberId(nationalNumberId);
         updatedCustomer.setPhoneNumber(customer.getPhoneNumber());
         updatedCustomer.setFirstName(customer.getFirstName());
         updatedCustomer.setLastName(customer.getLastName());
@@ -60,26 +58,45 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
-    public Customer doApplication(Long id) {
+    public void doApplication(Long id) {
         Customer customerById = getCustomerById(id);
-        Credit credit = new Credit();
-        List<Credit> credits = new ArrayList<>();
+        if (customerById.getCredits().size() == 0) {
+            Credit credit = new Credit();
+            List<Credit> credits = new ArrayList<>();
 
-        credit.setCreditLimit(calculateCreditLimit(customerById.getCreditScore(), customerById.getSalary()));
-        credit.setStatus(applicationResult(customerById.getCreditScore()));
-        credits.add(credit);
-        customerById.setCredits(credits);
-        credit.setCustomer(customerById);
-        return customerRepository.save(customerById);
+            credit.setCreditLimit(calculateCreditLimit(customerById.getCreditScore(), customerById.getSalary()));
+            credit.setStatus(applicationResult(customerById.getCreditScore()));
+            credits.add(credit);
+            customerById.setCredits(credits);
+            credit.setCustomer(customerById);
+            customerRepository.save(customerById);
+        } else {
+            throw new AlreadyExistException(customerById.getNationalNumberId(),"has made a credit application before.");
+        }
+
     }
 
-    public List<Credit> getCreditsByNationalNumberId (String nationalNumberId){
+    public String sendSMS(Long id){
+        Customer customerById = getCustomerById(id);
+        if (customerById.getCredits().size() == 1){
+            return  "Credit application result as "
+            +customerById.getCredits().get(0).getStatus().toString().toUpperCase()
+            +" was sent to "
+            +customerById.getPhoneNumber()
+            +" by SMS! Credit Limit: "
+            +customerById.getCredits().get(0).getCreditLimit();
+        }else {
+            return "There is no credit application! SMS could not sent!";
+        }
+    }
+
+    public List<Credit> getCreditsByNationalNumberId(String nationalNumberId) {
         Customer customer = getCustomerByNationalNumberId(nationalNumberId);
         List<Credit> credits = new ArrayList<>(customer.getCredits());
         return credits;
     }
 
-//////////////////////CALCULATIONS//////////////////////////////////////////////
+    //////////////////////CALCULATIONS//////////////////////////////////////////////
     private CreditStatus applicationResult(int creditScore) {
         if (creditScore >= CreditScoreLimit.LOWER.getValue()) {
             return CreditStatus.APPROVED;

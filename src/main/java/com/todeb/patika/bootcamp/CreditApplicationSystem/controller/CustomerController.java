@@ -47,11 +47,11 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body("Related Customer deleted successfully");
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("update/{phoneNumber}")
+    @PutMapping("update/{nationalNumberId}")
     public ResponseEntity updateCustomer(
-            @PathVariable String phoneNumber,
+            @PathVariable String nationalNumberId,
             @RequestBody CustomerDTO customer) {
-        Customer update = customerService.update(phoneNumber, customer);
+        Customer update = customerService.update(nationalNumberId, customer);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -63,13 +63,19 @@ public class CustomerController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("do/{id}")
     public ResponseEntity doApplication(@PathVariable Long id) {
-        Customer customer = customerService.doApplication(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Credit application result as "
-                                                        +customer.getCredits().get(0).getStatus().toString().toUpperCase()
-                                                        +" was sent to "
-                                                        +customer.getPhoneNumber()
-                                                        +" by SMS!");
+        customerService.doApplication(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Credit application was made successfully!");
+
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("sms/{id}")
+    public ResponseEntity sendSMS(@PathVariable Long id) {
+        String string = customerService.sendSMS(id);
+        return ResponseEntity.status(HttpStatus.OK).body(string);
+
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/get/{nationalNumberId}")
     public ResponseEntity getCustomerByNationalNumberId(@PathVariable String nationalNumberId) {
