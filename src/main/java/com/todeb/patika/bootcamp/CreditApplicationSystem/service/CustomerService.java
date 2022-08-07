@@ -98,6 +98,10 @@ public class CustomerService {
 
     //////////////////////CALCULATIONS//////////////////////////////////////////////
     private CreditStatus applicationResult(int creditScore) {
+        if(creditScore<=0){
+            throw new EntityNotFoundException("customer","credit score : 0");
+        }
+
         if (creditScore >= CreditScoreLimit.LOWER.getValue()) {
             return CreditStatus.APPROVED;
         }
@@ -105,6 +109,10 @@ public class CustomerService {
     }
 
     private Integer calculateCreditLimit(int creditScore, int salary) {
+        if(creditScore<=0){
+            throw new EntityNotFoundException("customer","credit score : 0");
+        }
+
         if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue() && salary <= SalaryLimit.SALARY_LIMIT.getValue()) {
             return CreditLimitStage.LOWER_STAGE.getValue();
         } else if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue()) {

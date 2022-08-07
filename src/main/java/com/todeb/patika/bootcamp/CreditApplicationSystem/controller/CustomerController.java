@@ -61,7 +61,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body("All customers were deleted successfully");
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("do/{id}")
+    @PostMapping("do/{id}")
     public ResponseEntity doApplication(@PathVariable Long id) {
         customerService.doApplication(id);
         return ResponseEntity.status(HttpStatus.OK).body("Credit application was made successfully!");
@@ -69,7 +69,7 @@ public class CustomerController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("sms/{id}")
+    @PostMapping("sms/{id}")
     public ResponseEntity sendSMS(@PathVariable Long id) {
         String string = customerService.sendSMS(id);
         return ResponseEntity.status(HttpStatus.OK).body(string);
