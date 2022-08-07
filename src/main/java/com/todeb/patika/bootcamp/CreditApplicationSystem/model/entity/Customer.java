@@ -41,7 +41,7 @@ public class Customer implements Serializable {
     @NotBlank(message = "Phone number cannot be blank")
     private String phoneNumber;
 
-    private int creditScore = (int) (Math.random() * 1500);
+    private int creditScore;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<Credit> credits;
