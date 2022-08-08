@@ -1,10 +1,9 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
-import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.AlreadyExistException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.*;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums.*;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,41 +54,15 @@ public class CustomerService {
         return customerRepository.save(updatedCustomer);
     }
 
+    public Customer save(Customer customer) {
+        Customer savedCustomer = customerRepository.save(customer);
+        return savedCustomer;
+    }
+
     public void deleteAll() {
         customerRepository.deleteAll();
     }
 
-    public void doApplication(Long id) {
-        Customer customerById = getCustomerById(id);
-        if (customerById.getCredits().size() == 0) {
-            Credit credit = new Credit();
-            List<Credit> credits = new ArrayList<>();
-
-            credit.setCreditLimit(calculateCreditLimit(customerById.getCreditScore(), customerById.getSalary()));
-            credit.setStatus(applicationResult(customerById.getCreditScore()));
-            credits.add(credit);
-            customerById.setCredits(credits);
-            credit.setCustomer(customerById);
-            customerRepository.save(customerById);
-        } else {
-            throw new AlreadyExistException(customerById.getNationalNumberId()," has made a credit application before.");
-        }
-
-    }
-
-    public String sendSMS(Long id){
-        Customer customerById = getCustomerById(id);
-        if (customerById.getCredits().size() == 1){
-            return  "Credit application result as "
-            +customerById.getCredits().get(0).getStatus().toString().toUpperCase()
-            +" was sent to "
-            +customerById.getPhoneNumber()
-            +" by SMS! Credit Limit: "
-            +customerById.getCredits().get(0).getCreditLimit();
-        }else {
-            throw new EntityNotFoundException("customer credit application","customer id: "+id);
-        }
-    }
 
     public List<Credit> getCreditsByNationalNumberId(String nationalNumberId) {
         Customer customer = getCustomerByNationalNumberId(nationalNumberId);
@@ -97,30 +70,5 @@ public class CustomerService {
         return credits;
     }
 
-    //////////////////////CALCULATIONS//////////////////////////////////////////////
-    private CreditStatus applicationResult(int creditScore) {
-        if(creditScore<=0){
-            throw new EntityNotFoundException("customer","credit score : 0");
-        }
 
-        if (creditScore >= CreditScoreLimit.LOWER.getValue()) {
-            return CreditStatus.APPROVED;
-        }
-        return CreditStatus.REJECTED;
-    }
-
-    private Integer calculateCreditLimit(int creditScore, int salary) {
-        if(creditScore<=0){
-            throw new EntityNotFoundException("customer","credit score : 0");
-        }
-
-        if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue() && salary <= SalaryLimit.SALARY_LIMIT.getValue()) {
-            return CreditLimitStage.LOWER_STAGE.getValue();
-        } else if (creditScore >= CreditScoreLimit.LOWER.getValue() && creditScore < CreditScoreLimit.HIGHER.getValue()) {
-            return CreditLimitStage.HIGHER_STAGE.getValue();
-        } else if (creditScore >= CreditScoreLimit.HIGHER.getValue()) {
-            return salary * CreditLimitMultiplier.CREDIT_LIMIT_MULTIPLIER.getValue();
-        }
-        return 0;
-    }
 }
