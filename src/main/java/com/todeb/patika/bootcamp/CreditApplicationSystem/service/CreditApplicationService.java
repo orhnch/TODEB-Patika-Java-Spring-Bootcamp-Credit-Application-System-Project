@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreditApplicationService {
     private final CustomerService customerService;
-    public void doApplication(String nationalNumberId) {
+    public Credit doApplication(String nationalNumberId) {
         Customer customerByNationalNumberId = customerService.getCustomerByNationalNumberId(nationalNumberId);
         if (customerByNationalNumberId.getCredits().size() == 0) {
             Credit credit = new Credit();
@@ -27,6 +27,7 @@ public class CreditApplicationService {
             customerByNationalNumberId.setCredits(credits);
             credit.setCustomer(customerByNationalNumberId);
             customerService.save(customerByNationalNumberId);
+            return credit;
         } else {
             throw new AlreadyExistException(customerByNationalNumberId.getNationalNumberId()," has made a credit application before.");
         }
