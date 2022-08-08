@@ -7,9 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
+
+@Validated
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RestController
 @RequestMapping("/credit")
@@ -24,13 +29,13 @@ public class CreditController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getCreditById(@PathVariable Long id) {
+    public ResponseEntity getCreditById(@PathVariable @Min(1) Long id) {
         Credit creditById = creditService.getCreditById(id);
         return ResponseEntity.status(HttpStatus.OK).body(creditById);
     }
 
     @PostMapping("/create")
-    public ResponseEntity createNewCredit(@RequestBody CreditDTO credit) {
+    public ResponseEntity createNewCredit(@Valid @RequestBody CreditDTO credit) {
         Credit respCredit = creditService.create(credit);
         if (respCredit == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -40,15 +45,15 @@ public class CreditController {
     }
 
     @DeleteMapping
-    public ResponseEntity deleteCredit(@RequestParam(name = "id") Long id) {
+    public ResponseEntity deleteCredit(@RequestParam(name = "id") @Min(1) Long id) {
         creditService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("Related Credit deleted successfully");
     }
 
     @PutMapping("update/{id}")
     public ResponseEntity updateCredit(
-            @PathVariable Long id,
-            @RequestBody CreditDTO customer) {
+            @PathVariable  @Min(1) Long id,
+            @Valid @RequestBody CreditDTO customer) {
         Credit update = creditService.update(id, customer);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }

@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.util.List;
-
+@Validated
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -27,14 +31,14 @@ public class CustomerController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity getCustomerById(@PathVariable Long id) {
+    public ResponseEntity getCustomerById(@PathVariable @Min(1) Long id) {
         Customer customerById = customerService.getCustomerById(id);
         return ResponseEntity.status(HttpStatus.OK).body(customerById);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
-    public ResponseEntity createNewCustomer(@RequestBody CustomerDTO customer) {
+    public ResponseEntity createNewCustomer(@Valid @RequestBody CustomerDTO customer) {
         Customer respCustomer = customerService.create(customer);
         if (respCustomer == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -45,7 +49,7 @@ public class CustomerController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete")
-    public ResponseEntity deleteCustomer(@RequestParam(name = "id") Long id) {
+    public ResponseEntity deleteCustomer(@RequestParam(name = "id") @Min(1) Long id) {
         customerService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("Related Customer deleted successfully");
     }
@@ -53,8 +57,8 @@ public class CustomerController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("update/{nationalNumberId}")
     public ResponseEntity updateCustomer(
-            @PathVariable String nationalNumberId,
-            @RequestBody CustomerDTO customer) {
+            @PathVariable @Pattern(regexp = "[1-9][0-9]{9}[02468]") String nationalNumberId,
+            @Valid @RequestBody CustomerDTO customer) {
         Customer update = customerService.update(nationalNumberId, customer);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
@@ -69,14 +73,14 @@ public class CustomerController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/get/{nationalNumberId}")
-    public ResponseEntity getCustomerByNationalNumberId(@PathVariable String nationalNumberId) {
+    public ResponseEntity getCustomerByNationalNumberId(@PathVariable @Pattern(regexp = "[1-9][0-9]{9}[02468]") String nationalNumberId) {
         Customer customerByNationalNumberId = customerService.getCustomerByNationalNumberId(nationalNumberId);
         return ResponseEntity.status(HttpStatus.OK).body(customerByNationalNumberId);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENT')")
     @GetMapping("/get/credits/{nationalNumberId}")
-    public ResponseEntity getCreditsByNationalNumberId(@PathVariable String nationalNumberId) {
+    public ResponseEntity getCreditsByNationalNumberId(@PathVariable @Pattern(regexp = "[1-9][0-9]{9}[02468]") String nationalNumberId) {
         List<Credit> credits = customerService.getCreditsByNationalNumberId(nationalNumberId);
         return ResponseEntity.status(HttpStatus.OK).body(credits);
     }
