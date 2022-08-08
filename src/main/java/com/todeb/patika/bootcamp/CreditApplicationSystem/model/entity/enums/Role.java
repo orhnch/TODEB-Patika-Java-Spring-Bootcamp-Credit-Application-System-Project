@@ -1,4 +1,4 @@
-package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity;
+package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

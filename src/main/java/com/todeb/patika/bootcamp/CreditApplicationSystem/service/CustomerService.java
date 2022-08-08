@@ -4,6 +4,7 @@ import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.AlreadyExistE
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.*;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums.*;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;

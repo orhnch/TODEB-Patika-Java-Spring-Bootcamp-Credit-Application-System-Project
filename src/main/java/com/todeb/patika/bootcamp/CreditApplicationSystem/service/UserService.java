@@ -2,7 +2,7 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.CustomJwtException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Role;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums.Role;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.User;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.UserRepository;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.security.JwtTokenProvider;

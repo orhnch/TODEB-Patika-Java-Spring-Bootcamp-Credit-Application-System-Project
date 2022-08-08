@@ -1,4 +1,4 @@
-package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity;
+package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums;
 
 public enum SalaryLimit {
     SALARY_LIMIT(5000);
