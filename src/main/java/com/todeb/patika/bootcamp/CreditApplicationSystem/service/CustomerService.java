@@ -87,7 +87,7 @@ public class CustomerService {
             +" by SMS! Credit Limit: "
             +customerById.getCredits().get(0).getCreditLimit();
         }else {
-            return "There is no credit application! SMS could not sent!";
+            throw new EntityNotFoundException("customer credit application","customer id: "+id);
         }
     }
 
