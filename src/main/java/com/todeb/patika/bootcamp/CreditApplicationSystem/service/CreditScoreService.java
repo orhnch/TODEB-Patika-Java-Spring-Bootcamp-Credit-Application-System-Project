@@ -11,8 +11,8 @@ public class CreditScoreService {
     private final CustomerService customerService;
 
 
-    public Customer calculateCreditScore(Long id) {
-        Customer customer = customerService.getCustomerById(id);
+    public Customer calculateCreditScore(String nationalNumberId) {
+        Customer customer = customerService.getCustomerByNationalNumberId(nationalNumberId);
         if (customer.getCreditScore() > 0) {
             throw new AlreadyExistException(customer.getNationalNumberId(), " has credit score was calculated before.");
         }

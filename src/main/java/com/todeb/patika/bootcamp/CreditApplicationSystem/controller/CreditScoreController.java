@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 @Validated
 @RestController
@@ -21,10 +22,10 @@ public class CreditScoreController {
     private CreditScoreService creditScoreService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("calculate/{id}")
+    @PutMapping("calculate/{nationalNumberId}")
     public ResponseEntity calculateCreditScore(
-            @PathVariable @Min(1) Long id) {
-        Customer customer = creditScoreService.calculateCreditScore(id);
+            @PathVariable @Pattern(regexp = "[1-9][0-9]{9}[02468]") String nationalNumberId) {
+        Customer customer = creditScoreService.calculateCreditScore(nationalNumberId);
         return ResponseEntity.ok("Credit Score: " + customer.getCreditScore());
     }
 }
