@@ -45,7 +45,7 @@ public class UserService {
     public String signup(User user, boolean isAdmin) {
         if (!userRepository.existsByUsername(user.getUsername())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            Role role = isAdmin ? Role.ROLE_ADMIN : Role.ROLE_CLIENT;
+            Role role = isAdmin ? Role.ROLE_ADMIN : Role.ROLE_CUSTOMER;
             user.setRoles(Collections.singletonList(role));
             userRepository.save(user);
             return jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
