@@ -2,21 +2,13 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CreditDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
+import org.mapstruct.Mapper;
 
-public class CreditMapper {
+@Mapper(componentModel = "spring")
+public interface CreditMapper {
 
-    public static CreditDTO toDTO(Credit credit) {
-        CreditDTO creditDTO = new CreditDTO();
-        creditDTO.setStatus(credit.getStatus());
-        creditDTO.setCreditLimit(credit.getCreditLimit());
-        return creditDTO;
-    }
+    CreditDTO toDTO(Credit credit);
 
-    public static Credit toEntity(CreditDTO creditDTO) {
-        Credit credit = new Credit();
-        credit.setStatus(creditDTO.getStatus());
-        credit.setCreditLimit(creditDTO.getCreditLimit());
-        return credit;
-    }
+    Credit toEntity(CreditDTO creditDTO);
 
 }

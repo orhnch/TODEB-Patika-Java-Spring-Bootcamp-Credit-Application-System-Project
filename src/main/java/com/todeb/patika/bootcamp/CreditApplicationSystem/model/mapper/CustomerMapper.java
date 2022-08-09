@@ -2,26 +2,12 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
+import org.mapstruct.Mapper;
 
-public class CustomerMapper {
-    public static CustomerDTO toDTO(Customer customer){
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setFirstName(customer.getFirstName());
-        customerDTO.setLastName(customer.getLastName());
-        customerDTO.setAge(customer.getAge());
-        customerDTO.setSalary(customer.getSalary());
-        customerDTO.setPhoneNumber(customer.getPhoneNumber());
-        customerDTO.setNationalNumberId(customer.getNationalNumberId());
-        return customerDTO;
-    }
-    public static Customer toEntity(CustomerDTO customerDTO){
-        Customer customer = new Customer();
-        customer.setFirstName(customerDTO.getFirstName());
-        customer.setLastName(customerDTO.getLastName());
-        customer.setAge(customerDTO.getAge());
-        customer.setSalary(customerDTO.getSalary());
-        customer.setPhoneNumber(customerDTO.getPhoneNumber());
-        customer.setNationalNumberId(customerDTO.getNationalNumberId());
-        return customer;
-    }
+@Mapper(componentModel = "spring")
+public interface CustomerMapper {
+    CustomerDTO toDTO(Customer customer);
+
+    Customer toEntity(CustomerDTO customerDTO);
+
 }

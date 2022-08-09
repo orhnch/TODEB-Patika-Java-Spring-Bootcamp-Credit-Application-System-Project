@@ -3,7 +3,6 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CreditDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CreditMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CreditRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,7 @@ public class CreditService {
         return allCredits;
     }
 
-    public Credit create(CreditDTO creditDTO) {
-        Credit credit = CreditMapper.toEntity(creditDTO);
+    public Credit create(Credit credit) {
         return creditRepository.save(credit);
     }
 

@@ -4,7 +4,6 @@ import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoun
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,7 @@ public class CustomerService {
         return allCustormers;
     }
 
-    public Customer create(CustomerDTO customerDTO) {
-        Customer customer = CustomerMapper.toEntity(customerDTO);
+    public Customer create(Customer customer) {
         return customerRepository.save(customer);
     }
 

@@ -2,7 +2,10 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.controller;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CreditDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CreditMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.CreditService;
+import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +20,13 @@ import java.util.List;
 @Validated
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/credit")
 public class CreditController {
-    @Autowired
-    private CreditService creditService;
+//    @Autowired
+    private final CreditService creditService;
+//    @Autowired
+    private final CreditMapper CREDIT_MAPPER = Mappers.getMapper(CreditMapper.class);
 
     @GetMapping("/all")
     public ResponseEntity getAllCredits() {
@@ -36,7 +42,7 @@ public class CreditController {
 
     @PostMapping("/create")
     public ResponseEntity createNewCredit(@Valid @RequestBody CreditDTO credit) {
-        Credit respCredit = creditService.create(credit);
+        Credit respCredit = creditService.create(CREDIT_MAPPER.toEntity(credit));
         if (respCredit == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Credit could not be created successfully");
@@ -52,7 +58,7 @@ public class CreditController {
 
     @PutMapping("update/{id}")
     public ResponseEntity updateCredit(
-            @PathVariable  @Min(1) Long id,
+            @PathVariable @Min(1) Long id,
             @Valid @RequestBody CreditDTO customer) {
         Credit update = creditService.update(id, customer);
         return ResponseEntity.status(HttpStatus.OK).body(update);

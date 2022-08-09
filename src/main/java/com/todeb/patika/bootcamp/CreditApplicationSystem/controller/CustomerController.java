@@ -3,7 +3,10 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.controller;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.CustomerService;
+import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +18,16 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import java.util.List;
+
 @Validated
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
-    @Autowired
-    private CustomerService customerService;
+//    @Autowired
+    private final CustomerService customerService;
+//    @Autowired
+    private final CustomerMapper CUSTOMER_MAPPER = Mappers.getMapper(CustomerMapper.class);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
@@ -39,7 +46,7 @@ public class CustomerController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
     public ResponseEntity createNewCustomer(@Valid @RequestBody CustomerDTO customer) {
-        Customer respCustomer = customerService.create(customer);
+        Customer respCustomer = customerService.create(CUSTOMER_MAPPER.toEntity(customer));
         if (respCustomer == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Customer could not be created successfully");

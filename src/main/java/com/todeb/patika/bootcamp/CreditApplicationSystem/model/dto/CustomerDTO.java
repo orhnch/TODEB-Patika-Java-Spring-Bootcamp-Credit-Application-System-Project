@@ -1,10 +1,13 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerDTO {
 
     private String nationalNumberId;
