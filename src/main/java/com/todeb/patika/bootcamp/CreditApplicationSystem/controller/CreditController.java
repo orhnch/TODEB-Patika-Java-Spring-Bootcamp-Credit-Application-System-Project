@@ -6,7 +6,6 @@ import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CreditMapp
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.CreditService;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,9 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/credit")
 public class CreditController {
-//    @Autowired
+
     private final CreditService creditService;
-//    @Autowired
+
     private final CreditMapper CREDIT_MAPPER = Mappers.getMapper(CreditMapper.class);
 
     @GetMapping("/all")
@@ -33,14 +32,14 @@ public class CreditController {
         List<Credit> allCredits = creditService.getAllCredits();
         return ResponseEntity.ok(allCredits);
     }
-
+/*
     @GetMapping("/{id}")
     public ResponseEntity getCreditById(@PathVariable @Min(1) Long id) {
         Credit creditById = creditService.getCreditById(id);
         return ResponseEntity.status(HttpStatus.OK).body(creditById);
-    }
+    }*/
 
-    @PostMapping("/create")
+/*    @PostMapping("/create")
     public ResponseEntity createNewCredit(@Valid @RequestBody CreditDTO credit) {
         Credit respCredit = creditService.create(CREDIT_MAPPER.toEntity(credit));
         if (respCredit == null) {
@@ -48,7 +47,7 @@ public class CreditController {
                     .body("Credit could not be created successfully");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(respCredit);
-    }
+    }*/
 
     @DeleteMapping
     public ResponseEntity deleteCredit(@RequestParam(name = "id") @Min(1) Long id) {
@@ -59,8 +58,8 @@ public class CreditController {
     @PutMapping("update/{id}")
     public ResponseEntity updateCredit(
             @PathVariable @Min(1) Long id,
-            @Valid @RequestBody CreditDTO customer) {
-        Credit update = creditService.update(id, customer);
+            @Valid @RequestBody CreditDTO credit) {
+        Credit update = creditService.update(id, credit);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }
 

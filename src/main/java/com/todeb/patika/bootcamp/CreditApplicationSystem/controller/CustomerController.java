@@ -7,7 +7,6 @@ import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMa
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,9 +23,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
-//    @Autowired
+
     private final CustomerService customerService;
-//    @Autowired
+
     private final CustomerMapper CUSTOMER_MAPPER = Mappers.getMapper(CustomerMapper.class);
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -85,7 +84,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerByNationalNumberId);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_CLIENT')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_CUSTOMER')")
     @GetMapping("/get/credits/{nationalNumberId}")
     public ResponseEntity getCreditsByNationalNumberId(@PathVariable @Pattern(regexp = "[1-9][0-9]{9}[02468]") String nationalNumberId) {
         List<Credit> credits = customerService.getCreditsByNationalNumberId(nationalNumberId);

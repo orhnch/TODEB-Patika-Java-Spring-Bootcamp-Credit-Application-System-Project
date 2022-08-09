@@ -20,9 +20,7 @@ public class CreditService {
         return allCredits;
     }
 
-    public Credit create(Credit credit) {
-        return creditRepository.save(credit);
-    }
+//    public Credit create(Credit credit) {return creditRepository.save(credit);}
 
     public Credit getCreditById(Long id) {
         Optional<Credit> byId = creditRepository.findById(id);
