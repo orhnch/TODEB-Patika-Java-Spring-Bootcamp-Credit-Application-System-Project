@@ -19,4 +19,10 @@ public class CreditScoreService {
         customer.setCreditScore((int) (Math.random() * 1900));
         return customerService.save(customer);
     }
+
+    public void resetCreditScore(String nationalNumberId){
+        Customer customer = customerService.getCustomerByNationalNumberId(nationalNumberId);
+        customer.setCreditScore(0);
+        customerService.save(customer);
+    }
 }
