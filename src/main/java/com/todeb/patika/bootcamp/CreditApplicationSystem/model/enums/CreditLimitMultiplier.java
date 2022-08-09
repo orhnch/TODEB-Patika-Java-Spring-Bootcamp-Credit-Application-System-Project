@@ -1,4 +1,4 @@
-package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums;
+package com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums;
 
 public enum CreditLimitMultiplier {
     CREDIT_LIMIT_MULTIPLIER(4);

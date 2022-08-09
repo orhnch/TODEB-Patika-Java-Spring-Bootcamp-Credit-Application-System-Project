@@ -1,4 +1,4 @@
-package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums;
+package com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums;
 
 public enum CreditLimitStage {
     LOWER_STAGE(10000),

@@ -5,6 +5,7 @@ import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoun
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums.*;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

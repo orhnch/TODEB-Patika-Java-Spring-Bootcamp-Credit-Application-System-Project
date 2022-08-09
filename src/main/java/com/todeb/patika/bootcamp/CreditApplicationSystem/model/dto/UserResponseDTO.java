@@ -1,6 +1,6 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto;
 
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums.Role;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.Role;
 import lombok.Data;
 
 import java.util.List;

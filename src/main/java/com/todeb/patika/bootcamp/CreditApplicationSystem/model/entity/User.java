@@ -1,6 +1,6 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity;
 
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums.Role;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

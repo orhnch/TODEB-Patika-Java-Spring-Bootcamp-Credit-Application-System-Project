@@ -2,7 +2,7 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums.CreditStatus;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.CreditStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

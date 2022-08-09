@@ -1,7 +1,7 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.security;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.CustomJwtException;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.enums.Role;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
