@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
@@ -166,11 +165,11 @@ class CustomerServiceTest {
         Customer expCustomer = getSampleTestCustomers().get(0);
         Optional<Customer> optExpCustomer = Optional.of(expCustomer);
 
-        Customer updatedCustomer = new Customer(1L, "99999999990", "Yakup", "Çakmak", 50, 1, "05544127081", 1500, new ArrayList<>());
+        Customer updatedCustomer = new Customer(1L, "99999999990", "Yakup", "Cakmak", 50, 1, "05544127081", 1500, new ArrayList<>());
 
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setFirstName("Yakup");
-        customerDTO.setLastName("Çakmak");
+        customerDTO.setLastName("Cakmak");
         customerDTO.setAge(50);
 
         //stub - when step
@@ -214,8 +213,8 @@ class CustomerServiceTest {
     private List<Customer> getSampleTestCustomers() {
         List<Customer> sampleList = new ArrayList<>();
         Customer customer = new Customer(1L, "99999999990", "Hamit", "Ala", 19, 1, "05544127081", 1500, new ArrayList<>());
-        Customer customer2 = new Customer(2L, "99999999992", "Ozan", "Banko", 25, 10000, "", 1020, new ArrayList<>());
-        Customer customer3 = new Customer(3L, "99999999994", "Orhan", "Burgu", 28, 10200, "", 950, new ArrayList<>());
+        Customer customer2 = new Customer(2L, "99999999992", "Ozan", "Banko", 25, 10000, "", 1514, new ArrayList<>());
+        Customer customer3 = new Customer(3L, "99999999994", "Orhan", "Burgu", 28, 10200, "", 104, new ArrayList<>());
         sampleList.add(customer);
         sampleList.add(customer2);
         sampleList.add(customer3);

@@ -32,22 +32,6 @@ public class CreditController {
         List<Credit> allCredits = creditService.getAllCredits();
         return ResponseEntity.ok(allCredits);
     }
-/*
-    @GetMapping("/{id}")
-    public ResponseEntity getCreditById(@PathVariable @Min(1) Long id) {
-        Credit creditById = creditService.getCreditById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(creditById);
-    }*/
-
-/*    @PostMapping("/create")
-    public ResponseEntity createNewCredit(@Valid @RequestBody CreditDTO credit) {
-        Credit respCredit = creditService.create(CREDIT_MAPPER.toEntity(credit));
-        if (respCredit == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Credit could not be created successfully");
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(respCredit);
-    }*/
 
     @DeleteMapping
     public ResponseEntity deleteCredit(@RequestParam(name = "id") @Min(1) Long id) {
