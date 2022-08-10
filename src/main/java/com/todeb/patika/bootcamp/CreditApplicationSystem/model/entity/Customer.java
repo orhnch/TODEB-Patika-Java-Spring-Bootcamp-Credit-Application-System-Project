@@ -39,6 +39,7 @@ public class Customer implements Serializable {
     private int salary;
 
     @Pattern(regexp = "(05)([0-9]{2})\\s?([0-9]{3})\\s?([0-9]{2})\\s?([0-9]{2})")
+    @Column(unique = true)
     @NotBlank(message = "Phone number cannot be blank")
     private String phoneNumber;
 
