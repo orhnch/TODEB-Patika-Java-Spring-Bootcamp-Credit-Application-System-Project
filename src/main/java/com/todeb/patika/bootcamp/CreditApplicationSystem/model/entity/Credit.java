@@ -32,6 +32,10 @@ public class Credit implements Serializable {
     @Column(name="credit_application_date", updatable = false, nullable = false)
     private LocalDate creditApplicationDate;
 
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Sms sms;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")

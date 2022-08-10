@@ -4,6 +4,7 @@ import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.AlreadyExistE
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Sms;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreditApplicationService {
     private final CustomerService customerService;
+    private final CreditService creditService;
+    private final SmsService smsService;
 
     public Credit doApplication(String nationalNumberId) {
         Customer customerByNationalNumberId = customerService.getCustomerByNationalNumberId(nationalNumberId);
         if (customerByNationalNumberId.getCredits().size() == 0) {
             Credit credit = new Credit();
             List<Credit> credits = new ArrayList<>();
+            Sms sms = new Sms();
+            sms.setSmsStatus(SmsStatus.WAIT_TO_SEND);
+            smsService.save(sms);
 
             credit.setCreditLimit(calculateCreditLimit(customerByNationalNumberId.getCreditScore(), customerByNationalNumberId.getSalary()));
             credit.setStatus(applicationResult(customerByNationalNumberId.getCreditScore()));
+            credit.setSms(sms);
             credits.add(credit);
             customerByNationalNumberId.setCredits(credits);
             credit.setCustomer(customerByNationalNumberId);
+//            sms.setCredit(customerByNationalNumberId.getCredits().get(0));
+//            creditService.save(customerByNationalNumberId.getCredits().get(0));
             customerService.save(customerByNationalNumberId);
             return credit;
         } else {
@@ -35,19 +44,6 @@ public class CreditApplicationService {
 
     }
 
-    public String sendSMS(String nationalNumberId) {
-        Customer customerByNationalNumberId = customerService.getCustomerByNationalNumberId(nationalNumberId);
-        if (customerByNationalNumberId.getCredits().size() == 1) {
-            return "Credit application result as "
-                    + customerByNationalNumberId.getCredits().get(0).getStatus().toString().toUpperCase()
-                    + " was sent to "
-                    + customerByNationalNumberId.getPhoneNumber()
-                    + " by SMS! Credit Limit: "
-                    + customerByNationalNumberId.getCredits().get(0).getCreditLimit();
-        } else {
-            throw new EntityNotFoundException("customer credit application", "customer national number id: " + nationalNumberId);
-        }
-    }
 
     //////////////////////CALCULATIONS//////////////////////////////////////////////
 

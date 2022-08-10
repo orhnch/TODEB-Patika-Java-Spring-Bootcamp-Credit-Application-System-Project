@@ -31,11 +31,5 @@ public class CreditApplicationController {
 
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("sms/{nationalNumberId}")
-    public ResponseEntity sendSMS(@PathVariable @Pattern(regexp = "[1-9][0-9]{9}[02468]") String nationalNumberId) {
-        String string = creditApplicationService.sendSMS(nationalNumberId);
-        return ResponseEntity.status(HttpStatus.OK).body(string);
 
-    }
 }

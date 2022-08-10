@@ -38,6 +38,10 @@ public class CreditService {
 
         return creditRepository.save(creditById);
     }
+    public Credit save(Credit credit){
+        Credit savedCredit = creditRepository.save(credit);
+        return savedCredit;
+    }
 
     public void deleteAll() {
         creditRepository.deleteAll();
