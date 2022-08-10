@@ -2,7 +2,9 @@ package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.CreditStatus;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
@@ -50,15 +52,15 @@ class CustomerServiceTest {
         expCustomerList = expCustomerList.stream().sorted(getCustomerComparator()).collect(Collectors.toList());
         actualCustomerList = actualCustomerList.stream().sorted(getCustomerComparator()).collect(Collectors.toList());
         for (int i = 0; i < expCustomerList.size(); i++) {
-            Customer currExpectedStudent = expCustomerList.get(i);
-            Customer currActualStudent = actualCustomerList.get(i);
-            assertEquals(currExpectedStudent.getId(), currActualStudent.getId());
-            assertEquals(currExpectedStudent.getCredits(), currActualStudent.getCredits());
-            assertEquals(currExpectedStudent.getCreditScore(), currActualStudent.getCreditScore());
-            assertEquals(currExpectedStudent.getNationalNumberId(), currActualStudent.getNationalNumberId());
-            assertEquals(currExpectedStudent.getPhoneNumber(), currActualStudent.getPhoneNumber());
-            assertEquals(currExpectedStudent.getFirstName(), currActualStudent.getFirstName());
-            assertEquals(currExpectedStudent.getLastName(), currActualStudent.getLastName());
+            Customer currExpectedCustomer = expCustomerList.get(i);
+            Customer currActualCustomer = actualCustomerList.get(i);
+            assertEquals(currExpectedCustomer.getId(), currActualCustomer.getId());
+            assertEquals(currExpectedCustomer.getCredits(), currActualCustomer.getCredits());
+            assertEquals(currExpectedCustomer.getCreditScore(), currActualCustomer.getCreditScore());
+            assertEquals(currExpectedCustomer.getNationalNumberId(), currActualCustomer.getNationalNumberId());
+            assertEquals(currExpectedCustomer.getPhoneNumber(), currActualCustomer.getPhoneNumber());
+            assertEquals(currExpectedCustomer.getFirstName(), currActualCustomer.getFirstName());
+            assertEquals(currExpectedCustomer.getLastName(), currActualCustomer.getLastName());
         }
     }
 
@@ -177,8 +179,7 @@ class CustomerServiceTest {
         when(customerRepository.save(any())).thenReturn(updatedCustomer);
 
 
-        Customer actualCustomer = customerService.update(expCustomer.getNationalNumberId(),customerDTO);
-
+        Customer actualCustomer = customerService.update(expCustomer.getNationalNumberId(), customerDTO);
 
 
         //then - validate step
@@ -191,16 +192,36 @@ class CustomerServiceTest {
     @Test
     void getCreditsByNationalNumberId() {
         //init step
+        Customer customer = getSampleTestCustomers().get(0);
+        Optional<Customer> optExpectedCustomer = Optional.of(customer);
+        Credit credit = new Credit(1L, 10000, CreditStatus.APPROVED, null, null, customer);
+        List<Credit> expList = new ArrayList<>();
+        expList.add(credit);
 
         //stub - when step
+        when(customerRepository.findCustomerByNationalNumberId(customer.getNationalNumberId())).thenReturn(optExpectedCustomer);
+        Customer actualCustomer = optExpectedCustomer.get();
+        List<Credit> expCredits = actualCustomer.getCredits();
 
         //then - validate step
+        List<Credit> actualCredits = customerService.getCreditsByNationalNumberId(customer.getNationalNumberId());
+
+        assertEquals(expCredits.size(), actualCredits.size());
+        for (int i = 0; i < expCredits.size(); i++) {
+            Credit currExpectedCredit = expCredits.get(i);
+            Credit currActualCredit = actualCredits.get(i);
+            assertEquals(currExpectedCredit.getId(), currActualCredit.getId());
+            assertEquals(currExpectedCredit.getCreditLimit(), currActualCredit.getCreditLimit());
+            assertEquals(currExpectedCredit.getStatus(), currActualCredit.getStatus());
+            assertEquals(currExpectedCredit.getCustomer(), currActualCredit.getCustomer());
+        }
     }
 
     @Test
     void delete() {
         //init step
         Customer customer = getSampleTestCustomers().get(0);
+
 
         //stub - when step
         when(customerRepository.findById(customer.getId())).thenReturn(Optional.of(customer));
@@ -220,6 +241,7 @@ class CustomerServiceTest {
         sampleList.add(customer3);
         return sampleList;
     }
+
 
     private Comparator<Customer> getCustomerComparator() {
         return (o1, o2) -> {
