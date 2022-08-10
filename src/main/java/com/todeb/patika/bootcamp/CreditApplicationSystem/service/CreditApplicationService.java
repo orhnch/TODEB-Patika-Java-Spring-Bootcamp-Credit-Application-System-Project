@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CreditApplicationService {
     private final CustomerService customerService;
-    private final CreditService creditService;
     private final SmsService smsService;
 
     public Credit doApplication(String nationalNumberId) {
@@ -34,8 +33,6 @@ public class CreditApplicationService {
             credits.add(credit);
             customerByNationalNumberId.setCredits(credits);
             credit.setCustomer(customerByNationalNumberId);
-//            sms.setCredit(customerByNationalNumberId.getCredits().get(0));
-//            creditService.save(customerByNationalNumberId.getCredits().get(0));
             customerService.save(customerByNationalNumberId);
             return credit;
         } else {
