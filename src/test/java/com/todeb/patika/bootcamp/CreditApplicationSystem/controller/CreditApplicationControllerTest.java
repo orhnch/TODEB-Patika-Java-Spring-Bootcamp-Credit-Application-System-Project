@@ -10,7 +10,4 @@ class CreditApplicationControllerTest {
     void doApplication() {
     }
 
-    @Test
-    void sendSMS() {
-    }
 }

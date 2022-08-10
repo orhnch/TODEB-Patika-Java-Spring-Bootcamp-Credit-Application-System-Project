@@ -9,8 +9,4 @@ class CreditApplicationServiceTest {
     @Test
     void doApplication() {
     }
-
-    @Test
-    void sendSMS() {
-    }
 }
