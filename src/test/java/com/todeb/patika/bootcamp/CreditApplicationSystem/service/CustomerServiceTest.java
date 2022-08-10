@@ -30,8 +30,6 @@ class CustomerServiceTest {
     @Mock
     private CustomerRepository customerRepository;
 
-    @Mock
-    private CustomerMapper CUSTOMER_MAPPER = Mappers.getMapper(CustomerMapper.class);
 
     @InjectMocks
     private CustomerService customerService;
