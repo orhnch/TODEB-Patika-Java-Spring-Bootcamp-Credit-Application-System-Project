@@ -33,7 +33,6 @@ public class CreditScoreController {
     public ResponseEntity resetCreditScore(
             @PathVariable @Pattern(regexp = "[1-9][0-9]{9}[02468]") String nationalNumberId) {
         creditScoreService.resetCreditScore(nationalNumberId);
-        ;
         return ResponseEntity.ok("Credit Score reset successfully.");
     }
 }
