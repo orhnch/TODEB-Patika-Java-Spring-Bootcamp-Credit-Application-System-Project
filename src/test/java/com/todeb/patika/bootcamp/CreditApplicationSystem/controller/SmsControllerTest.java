@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,7 +35,7 @@ class SmsControllerTest {
     private SmsService smsService;
 
     @InjectMocks
-    private SmsController  smsController;
+    private SmsController smsController;
 
     @BeforeEach
     public void setup() {
@@ -44,7 +44,7 @@ class SmsControllerTest {
     }
 
     @Test
-    void sendSMS() throws Exception{
+    void sendSMS() throws Exception {
         // init test values
         Customer customer = new Customer(1L, "99999999990", "Hamit", "Ala", 19, 1, "05544127081", 0, new ArrayList<>());
         List<Credit> sampleListCredit = new ArrayList<>();
@@ -64,6 +64,7 @@ class SmsControllerTest {
 
         // then
         response.andExpect(status().isOk()).andDo(print());
+        Mockito.verify(smsService, Mockito.times(1)).sendSMS(any());
 
     }
 }

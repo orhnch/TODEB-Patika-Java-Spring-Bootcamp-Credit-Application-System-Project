@@ -19,14 +19,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,7 +45,7 @@ class CreditApplicationControllerTest {
 
 
     @Test
-    void doApplication() throws Exception{
+    void doApplication() throws Exception {
         // init test values
         Customer customer = new Customer(1L, "99999999990", "Hamit", "Ala", 19, 1, "05544127081", 0, new ArrayList<>());
         List<Credit> sampleListCredit = new ArrayList<>();
@@ -63,6 +60,7 @@ class CreditApplicationControllerTest {
 
         // then
         response.andExpect(status().isOk()).andDo(print());
+        Mockito.verify(creditApplicationService, Mockito.times(1)).doApplication(any());
 
     }
 

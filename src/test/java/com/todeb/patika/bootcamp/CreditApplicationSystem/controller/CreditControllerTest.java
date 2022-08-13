@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.handler.GenericExceptionHandler;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.CreditStatus;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.CreditService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.HttpStatus;
@@ -26,6 +26,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -68,10 +69,11 @@ class CreditControllerTest {
         List<Credit> actualCredits = new ObjectMapper().readValue(response.getContentAsString(), new TypeReference<List<Credit>>() {
         });
         assertEquals(expectedCredits.size(), actualCredits.size());
+        Mockito.verify(creditService, Mockito.times(1)).getAllCredits();
     }
 
     @Test
-    void deleteCredit() throws Exception{
+    void deleteCredit() throws Exception {
         // init test values
         willDoNothing().given(creditService).delete(1L);
 
@@ -81,6 +83,7 @@ class CreditControllerTest {
         // then
         response.andExpect(status().isOk())
                 .andDo(print());
+        Mockito.verify(creditService, Mockito.times(1)).delete(any());
     }
 
     private List<Credit> getSampleTestCredits() {

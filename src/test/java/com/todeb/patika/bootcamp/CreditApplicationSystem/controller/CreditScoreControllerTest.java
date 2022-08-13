@@ -1,7 +1,6 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.handler.GenericExceptionHandler;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.CreditScoreService;
@@ -13,17 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.json.JacksonTester;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -59,10 +54,11 @@ class CreditScoreControllerTest {
 
         // then
         response.andExpect(status().isOk()).andDo(print());
+        Mockito.verify(creditScoreService, Mockito.times(1)).calculateCreditScore(any());
     }
 
     @Test
-    void resetCreditScore() throws Exception{
+    void resetCreditScore() throws Exception {
         // init test values
         Customer customer = new Customer(1L, "99999999990", "Hamit", "Ala", 19, 1, "05544127081", 1500, new ArrayList<>());
 
@@ -73,5 +69,6 @@ class CreditScoreControllerTest {
 
         // then
         response.andExpect(status().isOk()).andDo(print());
+        Mockito.verify(creditScoreService, Mockito.times(1)).resetCreditScore(any());
     }
 }
