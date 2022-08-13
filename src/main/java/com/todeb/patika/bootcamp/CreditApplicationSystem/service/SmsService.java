@@ -7,8 +7,9 @@ import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Sms;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.SmsStatus;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.SmsRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SmsService {
@@ -25,6 +26,8 @@ public class SmsService {
             smsRepository.save(sms);
             creditService.save(credit);
             customerService.save(customerByNationalNumberId);
+            log.debug("Sms status: "+sms.getSmsStatus());
+            log.info("Sms was sent to customer!");
             return "Credit application result as "
                     + customerByNationalNumberId.getCredits().get(0).getStatus().toString().toUpperCase()
                     + " was sent to "

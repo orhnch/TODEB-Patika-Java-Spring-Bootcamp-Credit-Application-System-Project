@@ -7,11 +7,13 @@ import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Sms;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreditApplicationService {
@@ -21,6 +23,7 @@ public class CreditApplicationService {
     public Credit doApplication(String nationalNumberId) {
         Customer customerByNationalNumberId = customerService.getCustomerByNationalNumberId(nationalNumberId);
         if (customerByNationalNumberId.getCredits().size() == 0) {
+            log.info("Credit application is making...");
             Credit credit = new Credit();
             List<Credit> credits = new ArrayList<>();
             Sms sms = new Sms();
@@ -36,6 +39,7 @@ public class CreditApplicationService {
             customerService.save(customerByNationalNumberId);
             return credit;
         } else {
+            log.error("Customer has made a credit application before!!! Please check this.");
             throw new AlreadyExistException(customerByNationalNumberId.getNationalNumberId(), " has made a credit application before.");
         }
 
