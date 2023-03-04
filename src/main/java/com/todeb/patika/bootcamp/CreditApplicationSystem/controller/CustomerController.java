@@ -1,6 +1,6 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.controller;
 
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload.CustomerPayloadDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CustomerMapper;
@@ -44,7 +44,7 @@ public class CustomerController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
-    public ResponseEntity createNewCustomer(@Valid @RequestBody CustomerDTO customer) {
+    public ResponseEntity createNewCustomer(@Valid @RequestBody CustomerPayloadDTO customer) {
         Customer respCustomer = customerService.create(CUSTOMER_MAPPER.toEntity(customer));
         if (respCustomer == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -64,7 +64,7 @@ public class CustomerController {
     @PutMapping("update/{nationalNumberId}")
     public ResponseEntity updateCustomer(
             @PathVariable @Pattern(regexp = "[1-9][0-9]{9}[02468]") String nationalNumberId,
-            @Valid @RequestBody CustomerDTO customer) {
+            @Valid @RequestBody CustomerPayloadDTO customer) {
         Customer update = customerService.update(nationalNumberId, customer);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }

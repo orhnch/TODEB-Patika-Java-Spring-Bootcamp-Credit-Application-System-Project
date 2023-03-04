@@ -1,7 +1,7 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CreditDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload.CreditPayloadDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CreditRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class CreditService {
         creditRepository.deleteById(id);
     }
 
-    public Credit update(Long id, CreditDTO credit) {
+    public Credit update(Long id, CreditPayloadDTO credit) {
         Credit creditById = getCreditById(id);
         creditById.setCreditLimit(credit.getCreditLimit());
         creditById.setStatus(credit.getStatus());

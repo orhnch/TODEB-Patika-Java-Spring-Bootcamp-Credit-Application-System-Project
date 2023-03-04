@@ -1,7 +1,7 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload.CustomerPayloadDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.CreditStatus;
@@ -165,17 +165,17 @@ class CustomerServiceTest {
 
         Customer updatedCustomer = new Customer(1L, "99999999990", "Yakup", "Cakmak", 50, 1, "05544127081", 1500, new ArrayList<>());
 
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setFirstName("Yakup");
-        customerDTO.setLastName("Cakmak");
-        customerDTO.setAge(50);
+        CustomerPayloadDTO customerPayloadDTO = new CustomerPayloadDTO();
+        customerPayloadDTO.setFirstName("Yakup");
+        customerPayloadDTO.setLastName("Cakmak");
+        customerPayloadDTO.setAge(50);
 
         //stub - when step
         when(customerRepository.findCustomerByNationalNumberId(expCustomer.getNationalNumberId())).thenReturn(optExpCustomer);
         when(customerRepository.save(any())).thenReturn(updatedCustomer);
 
 
-        Customer actualCustomer = customerService.update(expCustomer.getNationalNumberId(), customerDTO);
+        Customer actualCustomer = customerService.update(expCustomer.getNationalNumberId(), customerPayloadDTO);
 
 
         //then - validate step

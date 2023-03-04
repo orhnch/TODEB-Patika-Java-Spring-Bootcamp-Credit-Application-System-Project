@@ -1,10 +1,10 @@
-package com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto;
+package com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
-public class UserLoginDTO {
+public class UserLoginPayloadDTO {
 
     @NotBlank
     private String username;

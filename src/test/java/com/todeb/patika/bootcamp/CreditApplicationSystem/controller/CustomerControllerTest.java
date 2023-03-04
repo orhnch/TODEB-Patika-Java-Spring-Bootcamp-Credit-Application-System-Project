@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.handler.GenericExceptionHandler;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload.CustomerPayloadDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.enums.CreditStatus;
@@ -164,7 +164,7 @@ class CustomerControllerTest {
     @Test
     void updateCustomer() throws Exception {
         // init test values
-        CustomerDTO updateCustomerReqDTO = new CustomerDTO("99999999990", "Hamil", "Alak", 21, 5000, "05544127082");
+        CustomerPayloadDTO updateCustomerReqDTO = new CustomerPayloadDTO("99999999990", "Hamil", "Alak", 21, 5000, "05544127082");
 
 
         // stub - given

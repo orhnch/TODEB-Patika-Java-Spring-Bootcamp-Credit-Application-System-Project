@@ -1,6 +1,6 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.controller;
 
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CreditDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload.CreditPayloadDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.mapper.CreditMapper;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.CreditService;
@@ -42,7 +42,7 @@ public class CreditController {
     @PutMapping("update/{id}")
     public ResponseEntity updateCredit(
             @PathVariable @Min(1) Long id,
-            @Valid @RequestBody CreditDTO credit) {
+            @Valid @RequestBody CreditPayloadDTO credit) {
         Credit update = creditService.update(id, credit);
         return ResponseEntity.status(HttpStatus.OK).body(update);
     }

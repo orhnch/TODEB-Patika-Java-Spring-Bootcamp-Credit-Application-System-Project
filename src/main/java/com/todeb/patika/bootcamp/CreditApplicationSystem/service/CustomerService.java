@@ -1,7 +1,7 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.service;
 
 import com.todeb.patika.bootcamp.CreditApplicationSystem.exception.EntityNotFoundException;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.CustomerDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload.CustomerPayloadDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Credit;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.Customer;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.repository.CustomerRepository;
@@ -51,7 +51,7 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public Customer update(String nationalNumberId, CustomerDTO customer) {
+    public Customer update(String nationalNumberId, CustomerPayloadDTO customer) {
         Customer updatedCustomer = getCustomerByNationalNumberId(nationalNumberId);
         log.info("Customer is updating...");
         updatedCustomer.setPhoneNumber(customer.getPhoneNumber());

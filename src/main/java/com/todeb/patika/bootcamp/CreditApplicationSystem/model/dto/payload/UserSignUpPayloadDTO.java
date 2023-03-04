@@ -1,4 +1,4 @@
-package com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto;
+package com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Data
-public class UserDataDTO implements Serializable {
+public class UserSignUpPayloadDTO implements Serializable {
 
     @Size(min = 5, max = 15)
     private String username;

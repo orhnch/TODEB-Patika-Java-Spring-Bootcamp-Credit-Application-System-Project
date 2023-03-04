@@ -1,10 +1,16 @@
 package com.todeb.patika.bootcamp.CreditApplicationSystem.controller;
 
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.UserDataDTO;
-import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.UserLoginDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload.UserSignUpPayloadDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.payload.UserLoginPayloadDTO;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.response.GlobalResponse;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.response.JwtResponse;
+import com.todeb.patika.bootcamp.CreditApplicationSystem.model.dto.response.UserResponseDTO;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.model.entity.User;
 import com.todeb.patika.bootcamp.CreditApplicationSystem.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,46 +20,45 @@ import java.util.List;
 
 @Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
+    private final ModelMapper modelMapper;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAll();
-    }
+    public ResponseEntity<GlobalResponse> getAllUsers() {
 
+        return ResponseEntity.ok(userService.getAll());
+    }
 
 
     @PostMapping("/signin")
-    public String login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
-        return userService.signin(userLoginDTO.getUsername(), userLoginDTO.getPassword());
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody UserLoginPayloadDTO userLoginPayloadDTO) {
+        return ResponseEntity.ok(userService.signin(userLoginPayloadDTO));
     }
 
 
-
     @PostMapping("/signup")
-    public String signup(@RequestBody @Valid UserDataDTO userDataDTO) {
-        User user = new User();
-        user.setUsername(userDataDTO.getUsername());
-        user.setEmail(userDataDTO.getEmail());
-        user.setPassword(userDataDTO.getPassword());
-        return userService.signup(user, false);
+    public ResponseEntity<JwtResponse> signup(@RequestBody @Valid UserSignUpPayloadDTO userSignUpPayloadDTO) {
+        User user = modelMapper.map(userSignUpPayloadDTO,User.class);
+        return ResponseEntity.ok(userService.signup(user, false));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping(value = "/delete/{username}")
-    public String delete(@PathVariable String username) {
+    public ResponseEntity<String> delete(@PathVariable String username) {
         userService.delete(username);
-        return username + " was deleted successfully";
+        return ResponseEntity.ok(username + " was deleted successfully");
     }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/search/{username}")
-    public User searchByUserName(@PathVariable String username) {
-        return userService.search(username);
+    public ResponseEntity<UserResponseDTO> searchByUserName(@PathVariable String username) {
+        return ResponseEntity.ok(userService.search(username));
     }
 
 }
